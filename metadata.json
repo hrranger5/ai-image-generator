@@ -1,0 +1,5 @@
+{
+  "name": "AI Image Generator",
+  "description": "Generate images using Google's GenAI model by providing a text prompt. Change outfits and backgrounds with ease!",
+  "requestFramePermissions": []
+}
