@@ -1,0 +1,58 @@
+<div class="space-y-6">
+  <h1 class="text-3xl font-extrabold text-gray-800 text-center">AI Image Creator</h1>
+  <p class="text-center text-gray-600 text-sm">Describe the image you want to create and let AI bring it to life!</p>
+
+  <div class="relative">
+    <textarea
+      [(ngModel)]="prompt"
+      (keydown.enter)="generateImage()"
+      placeholder="E.g., A futuristic city at sunset with flying cars..."
+      rows="4"
+      class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition-all duration-200 resize-y"
+      [disabled]="isLoading()"
+    ></textarea>
+    <button
+      (click)="generateImage()"
+      [disabled]="isLoading() || !prompt()"
+      class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+    >
+      @if (isLoading()) {
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12c0-3.042 1.135-5.824 3.031-7.929l1.414 1.414A6.002 6.002 0 006 12c0 2.21 1.015 4.218 2.584 5.567l-1.414 1.414z"></path>
+        </svg>
+        Generating...
+      } @else {
+        Generate Image
+      }
+    </button>
+  </div>
+
+  @if (error()) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+      <strong class="font-bold">Error!</strong>
+      <span class="block sm:inline ml-2">{{ error() }}</span>
+    </div>
+  }
+
+  @if (generatedImageUrl() && !isLoading()) {
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4 text-center">Your Generated Image:</h2>
+      <div class="flex justify-center">
+        <img
+          [src]="generatedImageUrl()!"
+          alt="Generated image from prompt"
+          class="rounded-lg shadow-xl max-w-full h-auto border border-gray-200"
+          width="512"
+          height="512"
+          loading="lazy"
+        />
+      </div>
+      <p class="text-sm text-gray-500 mt-3 text-center">Image generated based on your prompt.</p>
+    </div>
+  } @else if (!isLoading() && !error()) {
+    <div class="mt-8 text-center text-gray-500">
+      <p>Your generated image will appear here.</p>
+    </div>
+  }
+</div>
